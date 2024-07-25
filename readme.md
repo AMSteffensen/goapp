@@ -35,7 +35,7 @@ This is a simple web application written in Go.
 1. Run the application:
 
     ```sh
-    go run main.go
+    go run cmd/web/*.go
     ```
 
 2. Open your web browser and go to `http://localhost:8080`.

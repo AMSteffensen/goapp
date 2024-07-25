@@ -6,10 +6,6 @@ This is a simple web application written in Go.
 
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Requirements
 

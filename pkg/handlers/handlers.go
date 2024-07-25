@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"net"
 	"net/http"
 
 	"github.com/AMSteffensen/goapp/pkg/config"
@@ -26,7 +27,14 @@ func NewHandlers(r *Repository) {
 
 // Home is the homepage handler
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	remoteIP := r.RemoteAddr
+	remoteIP, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		remoteIP = r.RemoteAddr
+	}
+	ip := net.ParseIP(remoteIP)
+	if ip != nil && ip.IsLoopback() && ip.To4() == nil {
+		remoteIP = "127.0.0.1"
+	}
 	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
 
 	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{})
@@ -44,5 +52,4 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
-
 }
